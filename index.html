@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hospital Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .message {
+      color: green;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      margin-top: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Hospital Management System</h1>
+
+<div class="card">
+  <h2>Add Patient</h2>
+  <div id="message" class="message"></div>
+  <form id="patientForm">
+    <label>Name:</label>
+    <input type="text" id="name" required>
+
+    <label>Age:</label>
+    <input type="number" id="age" required>
+
+    <label>Gender:</label>
+    <select id="gender" required>
+      <option value="">Select</option>
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+
+    <button type="submit">Add Patient</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Saved Patients</h2>
+  <table id="patientTable">
+    <thead>
+      <tr>
+        <th>#</th><th>Name</th><th>Age</th><th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be inserted here -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const form = document.getElementById('patientForm');
+  const tableBody = document.querySelector('#patientTable tbody');
+  const messageBox = document.getElementById('message');
+  let patients = [];
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const gender = document.getElementById('gender').value;
+
+    if (name && age && gender) {
+      const patient = { name, age, gender };
+      patients.push(patient);
+      displayPatients();
+      form.reset();
+      messageBox.textContent = 'Patient details inserted successfully!';
+      setTimeout(() => { messageBox.textContent = ''; }, 3000);
+    }
+  });
+
+  function displayPatients() {
+    tableBody.innerHTML = '';
+    patients.forEach((p, index) => {
+      const row = `<tr>
+        <td>${index + 1}</td>
+        <td>${p.name}</td>
+        <td>${p.age}</td>
+        <td>${p.gender}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+  }
+</script>
+
+</body>
+</html>
